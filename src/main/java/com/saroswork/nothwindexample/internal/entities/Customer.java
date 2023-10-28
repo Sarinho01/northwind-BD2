@@ -1,9 +1,6 @@
 package com.saroswork.nothwindexample.internal.entities;
 
-import com.saroswork.nothwindexample.internal.jpa.CustomerIdGenerator;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,10 +9,6 @@ import java.util.Objects;
 @Table(name = "Customers")
 public class Customer implements Serializable {
     @Id
-
-//    @GenericGenerator(name = "customerId",
-//            parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = ""),
-//            type = CustomerIdGenerator.class)
     @Column(columnDefinition = "NCHAR(5)")
     private String customerID;
     @Column(name = "CompanyName", length = 40)

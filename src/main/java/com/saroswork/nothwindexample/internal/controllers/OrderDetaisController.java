@@ -4,9 +4,7 @@ import com.saroswork.nothwindexample.internal.entities.OrderDetails;
 import com.saroswork.nothwindexample.internal.repositories.OrderDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,12 +12,18 @@ import java.util.List;
 @RequestMapping("/OrderDetails")
 public class OrderDetaisController {
     @Autowired
-    private OrderDetailsRepository orderDetails;
+    private OrderDetailsRepository orderDetailsRepository;
 
     @GetMapping("/")
     public ResponseEntity<List<OrderDetails>> findAll(){
-        List<OrderDetails> orderDetailsList = orderDetails.findAll();
+        List<OrderDetails> orderDetailsList = orderDetailsRepository.findAll();
         return ResponseEntity.ok(orderDetailsList);
+    }
+    @PostMapping("/")
+    public ResponseEntity insert(@RequestBody OrderDetails orderDetails){
+        System.out.println(orderDetails);
+        OrderDetails orderDetailsSaved = orderDetailsRepository.save(orderDetails);
+        return ResponseEntity.ok(orderDetailsSaved);
     }
 
 

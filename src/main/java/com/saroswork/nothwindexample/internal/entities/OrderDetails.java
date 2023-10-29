@@ -2,6 +2,8 @@ package com.saroswork.nothwindexample.internal.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "Order Details")
 @IdClass(OrderDetailID.class)
@@ -27,12 +29,12 @@ public class OrderDetails {
         this.orderID = orderID;
     }
 
-    public Integer getProductId() {
+    public Integer getProductID() {
         return productID;
     }
 
-    public void setProductId(Integer productId) {
-        this.productID = productId;
+    public void setProductID(Integer productID) {
+        this.productID = productID;
     }
 
     public Double getUnitPrice() {
@@ -59,5 +61,27 @@ public class OrderDetails {
         this.discount = discount;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetails that = (OrderDetails) o;
+        return Objects.equals(orderID, that.orderID) && Objects.equals(productID, that.productID) && Objects.equals(unitPrice, that.unitPrice) && Objects.equals(quantity, that.quantity) && Objects.equals(discount, that.discount);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderID, productID, unitPrice, quantity, discount);
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "orderID=" + orderID +
+                ", productID=" + productID +
+                ", unitPrice=" + unitPrice +
+                ", quantity=" + quantity +
+                ", discount=" + discount +
+                '}';
+    }
 }

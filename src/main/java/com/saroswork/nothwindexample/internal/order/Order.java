@@ -1,4 +1,4 @@
-package com.saroswork.nothwindexample.internal.entities;
+package com.saroswork.nothwindexample.internal.order;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;

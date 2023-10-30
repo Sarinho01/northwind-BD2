@@ -1,7 +1,5 @@
-package com.saroswork.nothwindexample.internal.repositories;
+package com.saroswork.nothwindexample.internal.orderdetails;
 
-import com.saroswork.nothwindexample.internal.entities.OrderDetailID;
-import com.saroswork.nothwindexample.internal.entities.OrderDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

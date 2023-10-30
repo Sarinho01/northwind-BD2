@@ -1,4 +1,4 @@
-package com.saroswork.nothwindexample.internal.entities;
+package com.saroswork.nothwindexample.internal.orderdetails;
 
 import jakarta.persistence.*;
 

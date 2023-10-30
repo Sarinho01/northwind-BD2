@@ -7,7 +7,7 @@ import java.util.List;
 
 
 @Service
-public class OrderDetaisController {
+public class OrderDetaisService {
     @Autowired
     private OrderDetailsRepository orderDetailsRepository;
 

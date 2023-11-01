@@ -2,9 +2,11 @@ package com.saroswork.nothwindexample.ui.views.customerviews;
 
 import com.saroswork.nothwindexample.internal.customer.Customer;
 import com.saroswork.nothwindexample.internal.customer.CustomerService;
+import com.saroswork.nothwindexample.ui.views.MainView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.AppShellConfigurator;
@@ -14,7 +16,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 
-@Route("/customer")
+@Route(value = "", layout = MainView.class)
 @PageTitle("NorthWind Customers")
 @Theme("northwindtheme")
 public class CustomersView extends VerticalLayout implements AppShellConfigurator {
@@ -85,15 +87,24 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
     }
 
     private void deleteContact(CustomerForm.DeleteEvent deleteEvent) {
-        customerService.delete(deleteEvent.getContact().getCustomerID());
-        updateList();
-        closeEditor();
+        try {
+            customerService.delete(deleteEvent.getContact().getCustomerID());
+            updateList();
+            closeEditor();
+        }catch (Exception e){
+            Notification.show(e.getMessage());
+        }
     }
 
     private void saveContact(CustomerForm.SaveEvent saveEvent) {
-        customerService.insert(saveEvent.getContact());
-        updateList();
-        closeEditor();
+        try {
+            customerService.insert(saveEvent.getContact());
+            updateList();
+            closeEditor();
+        }
+        catch (Exception e){
+            Notification.show(e.getMessage());
+        }
     }
 
     private void configureGrid() {

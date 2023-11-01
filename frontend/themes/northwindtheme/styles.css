@@ -1,0 +1,7 @@
+
+@media all and (max-width: 1100px) {
+    .customer-list-view.editing .toolbar,
+    .customer-list-view.editing .customer-grid {
+        display: none;
+    }
+}

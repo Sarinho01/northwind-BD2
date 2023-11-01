@@ -3,21 +3,27 @@ package com.saroswork.nothwindexample.internal.customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+public class CustomerService implements Serializable {
     @Autowired
     private CustomerRepository customerRepository;
 
 
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public List<Customer> findAll(String filterText) {
+        if(filterText == null || filterText.isEmpty())
+            return customerRepository.findAll();
+        return customerRepository.search(filterText);
     }
 
 
     public Customer insert(Customer customer) {
+        if(customer == null)
+            throw new CustomerException("ERROR: customer is null");
+
         if (customerRepository.existsById(customer.getCustomerID()))
             throw new CustomerException("ERROR: customer id " + customer.getCustomerID() + " already exists");
 

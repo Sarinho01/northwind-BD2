@@ -1,6 +1,10 @@
 package com.saroswork.nothwindexample.internal.customer;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,26 +13,39 @@ import java.util.Objects;
 @Table(name = "Customers")
 public class Customer implements Serializable {
     @Id
+    @NotEmpty
     @Column(columnDefinition = "NCHAR(5)")
     private String customerID;
+
+    @NotEmpty
     @Column(name = "CompanyName", length = 40)
     private String companyName;
 
+    @NotEmpty
     @Column(name = "ContactName", length = 30)
     private String contactName;
 
+    @NotEmpty
     @Column(name = "ContactTitle", length = 30)
     private String contactTitle;
+
+
     @Column(name = "Address", length = 60)
     private String address;
+
+    @NotEmpty
     @Column(name = "City", length = 15)
     private String city;
     @Column(name = "Region", length = 15)
     private String region;
     @Column(name = "PostalCode", length = 10)
     private String postalCode;
+
+    @NotEmpty
     @Column(name = "Country", length = 15)
     private String country;
+
+    @NotEmpty
     @Column(name = "Phone", length = 24)
     private String phone;
     @Column(name = "Fax", length = 24)
@@ -37,6 +54,12 @@ public class Customer implements Serializable {
 
     public String getCustomerID() {
         return customerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        if(this.customerID != null)
+            throw new CustomerException("ERROR: You cannot change customerID");
+        this.customerID = customerID;
     }
 
     public String getCompanyName() {

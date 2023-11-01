@@ -57,7 +57,7 @@ public class Customer implements Serializable {
     }
 
     public void setCustomerID(String customerID) {
-        if(this.customerID != null)
+        if (this.customerID != null && !customerID.equals(this.customerID))
             throw new CustomerException("ERROR: You cannot change customerID");
         this.customerID = customerID;
     }

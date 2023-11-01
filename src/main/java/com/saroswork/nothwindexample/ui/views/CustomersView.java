@@ -19,14 +19,15 @@ import com.vaadin.flow.theme.Theme;
 @Theme("northwindtheme")
 public class CustomersView extends VerticalLayout implements AppShellConfigurator {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
     Grid<Customer> customerGrid = new Grid<>(Customer.class);
     TextField filterText = new TextField();
     CustomerForm customerForm;
 
 
-    public CustomersView(CustomerService customerService){
+    public CustomersView(CustomerService customerService) {
         this.customerService = customerService;
+
 
         addClassName("customer-list-view");
         setSizeFull();
@@ -37,9 +38,11 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
                 getToolbar(),
                 getContent()
         );
-        
+
         updateList();
         closeEditor();
+
+
     }
 
     private void closeEditor() {
@@ -49,7 +52,7 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
     }
 
     private void editCustomer(Customer customer) {
-        if(customer == null) {
+        if (customer == null) {
             closeEditor();
             return;
         }
@@ -75,6 +78,22 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
     private void configureCustomerForm() {
         customerForm = new CustomerForm();
         customerForm.setWidth("25em");
+
+        customerForm.addSaveListener(this::saveContact);
+        customerForm.addDeleteListener(this::deleteContact);
+        customerForm.addCloseListener(e -> closeEditor());
+    }
+
+    private void deleteContact(CustomerForm.DeleteEvent deleteEvent) {
+        customerService.delete(deleteEvent.getContact().getCustomerID());
+        updateList();
+        closeEditor();
+    }
+
+    private void saveContact(CustomerForm.SaveEvent saveEvent) {
+        customerService.insert(saveEvent.getContact());
+        updateList();
+        closeEditor();
     }
 
     private void configureGrid() {
@@ -83,12 +102,17 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
         customerGrid.setSizeFull();
         customerGrid.setColumns("customerID", "companyName", "contactName", "contactTitle", "address", "city", "region", "postalCode", "country", "phone", "fax");
 
-        customerGrid.addComponentColumn(customer-> {
+        customerGrid.addComponentColumn(customer -> {
             Button updateButton = new Button("Update");
-            updateButton.addClickListener(c -> editCustomer(customer));
+            updateButton.addClickListener(c -> updateContact(customer));
             return updateButton;
         }).setHeader("Update");
         customerGrid.getColumns().forEach(grid -> grid.setAutoWidth(true));
+    }
+
+    private void updateContact(Customer customer) {
+        editCustomer(customer);
+
     }
 
     private HorizontalLayout getToolbar() {
@@ -102,7 +126,7 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
         addCustomerButton.addClickListener(e -> addContact());
 
         HorizontalLayout toolbar = new HorizontalLayout();
-        toolbar.add(filterText,addCustomerButton);
+        toolbar.add(filterText, addCustomerButton);
         toolbar.setClassName("toolbar");
         return toolbar;
     }

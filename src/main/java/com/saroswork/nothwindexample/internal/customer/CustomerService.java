@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Service
 public class CustomerService implements Serializable {
+
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -23,10 +25,6 @@ public class CustomerService implements Serializable {
     public Customer insert(Customer customer) {
         if(customer == null)
             throw new CustomerException("ERROR: customer is null");
-
-        if (customerRepository.existsById(customer.getCustomerID()))
-            throw new CustomerException("ERROR: customer id " + customer.getCustomerID() + " already exists");
-
         return customerRepository.save(customer);
     }
 

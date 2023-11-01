@@ -71,13 +71,13 @@ public class CustomerForm extends FormLayout {
         saveButton.addClickShortcut(Key.ENTER);
         cancelButton.addClickShortcut(Key.ESCAPE);
 
-        return new HorizontalLayout(saveButton,deleteButton,cancelButton);
+        return new HorizontalLayout(saveButton, deleteButton, cancelButton);
     }
 
     private void validateAndSave() {
-        try{
-         binder.writeBean(customer);
-         fireEvent(new SaveEvent(this, customer));
+        try {
+            binder.writeBean(customer);
+            fireEvent(new SaveEvent(this, customer));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -146,6 +146,7 @@ public class CustomerForm extends FormLayout {
     public Registration addSaveListener(ComponentEventListener<SaveEvent> listener) {
         return addListener(SaveEvent.class, listener);
     }
+
     public Registration addCloseListener(ComponentEventListener<CloseEvent> listener) {
         return addListener(CloseEvent.class, listener);
     }

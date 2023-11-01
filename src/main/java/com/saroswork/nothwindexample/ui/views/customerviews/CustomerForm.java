@@ -1,4 +1,4 @@
-package com.saroswork.nothwindexample.ui.views;
+package com.saroswork.nothwindexample.ui.views.customerviews;
 
 import com.saroswork.nothwindexample.internal.customer.Customer;
 import com.vaadin.flow.component.Component;
@@ -8,6 +8,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -79,6 +80,7 @@ public class CustomerForm extends FormLayout {
             binder.writeBean(customer);
             fireEvent(new SaveEvent(this, customer));
         } catch (ValidationException e) {
+            Notification.show("ERROR: cannot change CustomerID or some empty parameter");
             e.printStackTrace();
         }
     }

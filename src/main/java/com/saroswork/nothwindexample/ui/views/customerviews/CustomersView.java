@@ -1,4 +1,4 @@
-package com.saroswork.nothwindexample.ui.views;
+package com.saroswork.nothwindexample.ui.views.customerviews;
 
 import com.saroswork.nothwindexample.internal.customer.Customer;
 import com.saroswork.nothwindexample.internal.customer.CustomerService;
@@ -97,7 +97,6 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
     }
 
     private void configureGrid() {
-
         customerGrid.setClassName("customer-grid");
         customerGrid.setSizeFull();
         customerGrid.setColumns("customerID", "companyName", "contactName", "contactTitle", "address", "city", "region", "postalCode", "country", "phone", "fax");
@@ -134,4 +133,8 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
     private void addContact() {
         editCustomer(new Customer());
     }
+
+
+
 }
+

@@ -22,9 +22,9 @@ import com.vaadin.flow.theme.Theme;
 public class CustomersView extends VerticalLayout implements AppShellConfigurator {
 
     private final CustomerService customerService;
-    Grid<Customer> customerGrid = new Grid<>(Customer.class);
-    TextField filterText = new TextField();
-    CustomerForm customerForm;
+    private final Grid<Customer> customerGrid = new Grid<>(Customer.class);
+    private final TextField filterText = new TextField();
+    private CustomerForm customerForm;
 
 
     public CustomersView(CustomerService customerService) {

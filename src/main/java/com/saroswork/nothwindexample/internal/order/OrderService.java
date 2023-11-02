@@ -3,19 +3,23 @@ package com.saroswork.nothwindexample.internal.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 
-public class OrderService {
+public class OrderService implements Serializable {
 
     @Autowired
     private OrderRepository orderRepository;
 
 
-    public List<Order> findAll(){
-        return orderRepository.findAll();
+    public List<Order> findAll(String searchTerm){
+        if(searchTerm == null || searchTerm.isEmpty()){
+            return orderRepository.findAll();
+        }
+        return orderRepository.search(searchTerm);
     }
 
     public Order findById(Integer id){

@@ -6,6 +6,7 @@ import com.saroswork.nothwindexample.internal.orderdetails.OrderDetails;
 import com.saroswork.nothwindexample.internal.orderdetails.OrderDetailsService;
 import com.saroswork.nothwindexample.ui.views.MainView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -26,6 +27,7 @@ public class OrderView extends VerticalLayout {
     private final TextField filterOrderID = new TextField("Filter by OrderID");
     private final Grid<OrderDetails> orderDetailsGrid = new Grid<>(OrderDetails.class);
     private final Grid<Order> orderGrid = new Grid<>(Order.class);
+    private VerticalLayout oDContent;
 
     public OrderView(OrderService orderService, OrderDetailsService orderDetailsService) {
         this.orderService = orderService;
@@ -42,40 +44,8 @@ public class OrderView extends VerticalLayout {
         );
 
         updateList();
+        closeOD();
 
-    }
-
-    private void updateList() {
-        orderGrid.setItems(orderService.findAll(filterOrderID.getValue()));
-    }
-
-    private Component getToolBar() {
-        filterOrderID.setPlaceholder("Filter by orderID");
-        filterOrderID.setClearButtonVisible(true);
-        filterOrderID.setValueChangeMode(ValueChangeMode.LAZY);
-        filterOrderID.addValueChangeListener(e -> updateList());
-
-        HorizontalLayout layout = new HorizontalLayout(filterOrderID);
-        layout.setMaxWidth(LumoUtility.Width.FULL);
-
-        return layout;
-    }
-
-    private Component getContent() {
-        Button closeButton = new Button("Close");
-
-        VerticalLayout oDContent = new VerticalLayout(orderDetailsGrid, closeButton);
-        oDContent.addClassName("close-button");
-        oDContent.setWidth("60rem");
-
-
-        HorizontalLayout content = new HorizontalLayout(orderGrid, oDContent);
-        content.setFlexGrow(2, orderGrid);
-        content.setFlexGrow(1,oDContent);
-        content.addClassName("content");
-        content.setSizeFull();
-
-        return content;
     }
 
     private void configureGrid() {
@@ -97,10 +67,6 @@ public class OrderView extends VerticalLayout {
         orderGrid.getColumns().forEach(column -> column.setAutoWidth(true));
     }
 
-    private void showOrderDetails(Order order) {
-
-    }
-
     private void configureOrderDetailsGrid() {
         orderDetailsGrid.setClassName("orderdetails-grid");
         orderDetailsGrid.setSizeFull();
@@ -108,5 +74,53 @@ public class OrderView extends VerticalLayout {
 
         orderDetailsGrid.getColumns().forEach(column -> column.setAutoWidth(true));
         orderDetailsGrid.setSizeFull();
+    }
+
+    private Component getToolBar() {
+        filterOrderID.setPlaceholder("Filter by orderID");
+        filterOrderID.setClearButtonVisible(true);
+        filterOrderID.setValueChangeMode(ValueChangeMode.LAZY);
+        filterOrderID.addValueChangeListener(e -> updateList());
+
+        HorizontalLayout layout = new HorizontalLayout(filterOrderID);
+        layout.setMaxWidth(LumoUtility.Width.FULL);
+
+        return layout;
+    }
+
+    private Component getContent() {
+        Button closeButton = new Button("Close");
+        closeButton.addClassName("close-button");
+        closeButton.addClickShortcut(Key.ESCAPE);
+        closeButton.addClickListener(e -> closeOD());
+
+        this.oDContent = new VerticalLayout(orderDetailsGrid, closeButton);
+        oDContent.addClassName("od-content");
+        oDContent.setWidth("60rem");
+
+
+        HorizontalLayout content = new HorizontalLayout(orderGrid, oDContent);
+        content.setFlexGrow(2, orderGrid);
+        content.setFlexGrow(1,oDContent);
+        content.addClassName("content");
+        content.setSizeFull();
+
+        return content;
+    }
+
+    private void updateList() {
+        orderGrid.setItems(orderService.findAll(filterOrderID.getValue()));
+    }
+
+    private void showOrderDetails(Order order) {
+        addClassName("showingOD");
+        orderDetailsGrid.setItems(orderDetailsService.findByOrderId(order.getOrderID()));
+        oDContent.setVisible(true);
+    }
+
+    private void closeOD() {
+        oDContent.setVisible(false);
+        removeClassName("showingOD");
+
     }
 }

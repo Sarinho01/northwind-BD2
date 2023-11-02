@@ -30,7 +30,6 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
     public CustomersView(CustomerService customerService) {
         this.customerService = customerService;
 
-
         addClassName("customer-list-view");
         setSizeFull();
 
@@ -43,38 +42,6 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
 
         updateList();
         closeEditor();
-
-
-    }
-
-    private void closeEditor() {
-        customerForm.setCustomer(null);
-        customerForm.setVisible(false);
-        removeClassName("editing");
-    }
-
-    private void editCustomer(Customer customer) {
-        if (customer == null) {
-            closeEditor();
-            return;
-        }
-        customerForm.setCustomer(customer);
-        customerForm.setVisible(true);
-        addClassName("editing");
-    }
-
-    private void updateList() {
-        customerGrid.setItems(customerService.findAll(filterText.getValue()));
-    }
-
-    private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(customerGrid, customerForm);
-        content.setFlexGrow(2, customerGrid);
-        content.setFlexGrow(1, customerForm);
-        content.addClassName("content");
-        content.setSizeFull();
-
-        return content;
     }
 
     private void configureCustomerForm() {
@@ -84,27 +51,6 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
         customerForm.addSaveListener(this::saveContact);
         customerForm.addDeleteListener(this::deleteContact);
         customerForm.addCloseListener(e -> closeEditor());
-    }
-
-    private void deleteContact(CustomerForm.DeleteEvent deleteEvent) {
-        try {
-            customerService.delete(deleteEvent.getContact().getCustomerID());
-            updateList();
-            closeEditor();
-        }catch (Exception e){
-            Notification.show(e.getMessage());
-        }
-    }
-
-    private void saveContact(CustomerForm.SaveEvent saveEvent) {
-        try {
-            customerService.insert(saveEvent.getContact());
-            updateList();
-            closeEditor();
-        }
-        catch (Exception e){
-            Notification.show(e.getMessage());
-        }
     }
 
     private void configureGrid() {
@@ -118,11 +64,6 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
             return updateButton;
         }).setHeader("Update");
         customerGrid.getColumns().forEach(grid -> grid.setAutoWidth(true));
-    }
-
-    private void updateContact(Customer customer) {
-        editCustomer(customer);
-
     }
 
     private HorizontalLayout getToolbar() {
@@ -141,8 +82,63 @@ public class CustomersView extends VerticalLayout implements AppShellConfigurato
         return toolbar;
     }
 
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(customerGrid, customerForm);
+        content.setFlexGrow(2, customerGrid);
+        content.setFlexGrow(1, customerForm);
+        content.addClassName("content");
+        content.setSizeFull();
+
+        return content;
+    }
+
+    private void updateList() {
+        customerGrid.setItems(customerService.findAll(filterText.getValue()));
+    }
+
+    private void closeEditor() {
+        customerForm.setCustomer(null);
+        customerForm.setVisible(false);
+        removeClassName("editing");
+    }
+
+    private void editCustomer(Customer customer) {
+        if (customer == null) {
+            closeEditor();
+            return;
+        }
+        customerForm.setCustomer(customer);
+        customerForm.setVisible(true);
+        addClassName("editing");
+    }
+
     private void addContact() {
         editCustomer(new Customer());
+    }
+
+    private void saveContact(CustomerForm.SaveEvent saveEvent) {
+        try {
+            customerService.insert(saveEvent.getContact());
+            updateList();
+            closeEditor();
+        }
+        catch (Exception e){
+            Notification.show(e.getMessage());
+        }
+    }
+
+    private void deleteContact(CustomerForm.DeleteEvent deleteEvent) {
+        try {
+            customerService.delete(deleteEvent.getContact().getCustomerID());
+            updateList();
+            closeEditor();
+        }catch (Exception e){
+            Notification.show(e.getMessage());
+        }
+    }
+
+    private void updateContact(Customer customer) {
+        editCustomer(customer);
     }
 
 

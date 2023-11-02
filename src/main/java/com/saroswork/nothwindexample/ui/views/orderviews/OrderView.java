@@ -8,21 +8,24 @@ import com.saroswork.nothwindexample.ui.views.MainView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 
 
-@Route(value = "Orders", layout = MainView.class)
+@Route(value = "orders", layout = MainView.class)
 @PageTitle("Orders | NorthWind")
 public class OrderView extends VerticalLayout {
 
     private final OrderService orderService;
     private final OrderDetailsService orderDetailsService;
     private final TextField filterOrderID = new TextField("Filter by OrderID");
-    private final Grid<OrderDetails> orderDetailsGrid = new Grid<>();
-    private final Grid<Order> orderGrid = new Grid<>();
+    private final Grid<OrderDetails> orderDetailsGrid = new Grid<>(OrderDetails.class);
+    private final Grid<Order> orderGrid = new Grid<>(Order.class);
 
     public OrderView(OrderService orderService, OrderDetailsService orderDetailsService) {
         this.orderService = orderService;
@@ -43,14 +46,36 @@ public class OrderView extends VerticalLayout {
     }
 
     private void updateList() {
+        orderGrid.setItems(orderService.findAll(filterOrderID.getValue()));
     }
 
     private Component getToolBar() {
-        return null;
+        filterOrderID.setPlaceholder("Filter by orderID");
+        filterOrderID.setClearButtonVisible(true);
+        filterOrderID.setValueChangeMode(ValueChangeMode.LAZY);
+        filterOrderID.addValueChangeListener(e -> updateList());
+
+        HorizontalLayout layout = new HorizontalLayout(filterOrderID);
+        layout.setMaxWidth(LumoUtility.Width.FULL);
+
+        return layout;
     }
 
     private Component getContent() {
-        return null;
+        Button closeButton = new Button("Close");
+
+        VerticalLayout oDContent = new VerticalLayout(orderDetailsGrid, closeButton);
+        oDContent.addClassName("close-button");
+        oDContent.setWidth("60rem");
+
+
+        HorizontalLayout content = new HorizontalLayout(orderGrid, oDContent);
+        content.setFlexGrow(2, orderGrid);
+        content.setFlexGrow(1,oDContent);
+        content.addClassName("content");
+        content.setSizeFull();
+
+        return content;
     }
 
     private void configureGrid() {
@@ -80,7 +105,8 @@ public class OrderView extends VerticalLayout {
         orderDetailsGrid.setClassName("orderdetails-grid");
         orderDetailsGrid.setSizeFull();
         orderDetailsGrid.setColumns("orderID", "productID", "unitPrice", "quantity", "discount");
-        
+
         orderDetailsGrid.getColumns().forEach(column -> column.setAutoWidth(true));
+        orderDetailsGrid.setSizeFull();
     }
 }

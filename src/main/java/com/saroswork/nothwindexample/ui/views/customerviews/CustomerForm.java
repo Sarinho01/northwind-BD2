@@ -59,6 +59,20 @@ public class CustomerForm extends FormLayout {
 
     }
 
+    private void setFieldsLength() {
+        customerID.setMaxLength(5);
+        companyName.setMaxLength(40);
+        contactName.setMaxLength(30);
+        contactTitle.setMaxLength(30);
+        address.setMaxLength(60);
+        city.setMaxLength(15);
+        region.setMaxLength(15);
+        postalCode.setMaxLength(10);
+        country.setMaxLength(15);
+        phone.setMaxLength(24);
+        fax.setMaxLength(24);
+    }
+
     private Component createButtonLayout() {
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
@@ -81,20 +95,6 @@ public class CustomerForm extends FormLayout {
         } catch (Exception e) {
             Notification.show("ERROR: cannot change CustomerID or some empty parameter");
         }
-    }
-
-    private void setFieldsLength() {
-        customerID.setMaxLength(5);
-        companyName.setMaxLength(40);
-        contactName.setMaxLength(30);
-        contactTitle.setMaxLength(30);
-        address.setMaxLength(60);
-        city.setMaxLength(15);
-        region.setMaxLength(15);
-        postalCode.setMaxLength(10);
-        country.setMaxLength(15);
-        phone.setMaxLength(24);
-        fax.setMaxLength(24);
     }
 
     public Customer getCustomer() {

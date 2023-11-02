@@ -2,6 +2,7 @@ package com.saroswork.nothwindexample.ui.views.orderviews;
 
 import com.saroswork.nothwindexample.internal.customer.CustomerService;
 import com.saroswork.nothwindexample.internal.order.Order;
+import com.saroswork.nothwindexample.internal.util.RandomUtil;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -72,7 +73,7 @@ public class OrderForm extends FormLayout {
             return null;
 
         Order order = new Order();
-        Random random = new Random();
+        Random random = RandomUtil.random;
 
         try {
             order.setCustomerID(comboBoxCustomerID.getValue());

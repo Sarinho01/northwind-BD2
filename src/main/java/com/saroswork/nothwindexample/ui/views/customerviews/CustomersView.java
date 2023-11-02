@@ -16,8 +16,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 
-@Route(value = "", layout = MainView.class)
-@PageTitle("NorthWind Customers")
+@Route(value = "customers", layout = MainView.class)
+@PageTitle("Customers | NorthWind")
 @Theme("northwindtheme")
 public class CustomersView extends VerticalLayout implements AppShellConfigurator {
 

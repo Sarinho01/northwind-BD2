@@ -1,13 +1,16 @@
 package com.saroswork.nothwindexample.internal.customer;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CustomerService implements Serializable {
 
 
@@ -19,6 +22,10 @@ public class CustomerService implements Serializable {
         if(filterText == null || filterText.isEmpty())
             return customerRepository.findAll();
         return customerRepository.search(filterText);
+    }
+
+    public Customer findById(String id){
+        return customerRepository.findByCustomerID(id);
     }
 
 
@@ -47,6 +54,15 @@ public class CustomerService implements Serializable {
         Customer customer = optionalCustomer.get();
         customerRepository.delete(customer);
         return customer;
+    }
+
+    public List<Customer> findTOP10Customers(){
+        List<String> nameTop10 = customerRepository.findTOP10Customers();
+        List<Customer> customerList = new ArrayList<>();
+
+        nameTop10.forEach(c -> customerList.add(this.findById(c)));
+
+        return customerList;
     }
 
 }

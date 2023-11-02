@@ -12,13 +12,15 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Route(value = "create/order", layout = MainView.class)
+@Route(value = "orders/create", layout = MainView.class)
+@PageTitle("Orders | Create | NorthWind")
 public class CreateOrder extends VerticalLayout {
     private final OrderService orderService;
     private final OrderDetailsService orderDetailsService;

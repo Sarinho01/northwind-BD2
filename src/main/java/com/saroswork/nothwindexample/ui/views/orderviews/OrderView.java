@@ -97,6 +97,7 @@ public class OrderView extends VerticalLayout {
         this.oDContent = new VerticalLayout(orderDetailsGrid, closeButton);
         oDContent.addClassName("od-content");
         oDContent.setWidth("60rem");
+        oDContent.setAlignItems(Alignment.CENTER);
 
 
         HorizontalLayout content = new HorizontalLayout(orderGrid, oDContent);

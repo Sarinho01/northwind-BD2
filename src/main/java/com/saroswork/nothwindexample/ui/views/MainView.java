@@ -1,6 +1,7 @@
 package com.saroswork.nothwindexample.ui.views;
 
 import com.saroswork.nothwindexample.ui.views.customerviews.CustomersView;
+import com.saroswork.nothwindexample.ui.views.orderviews.CreateOrder;
 import com.saroswork.nothwindexample.ui.views.orderviews.OrderView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -44,7 +45,8 @@ public class MainView extends AppLayout {
         addToDrawer(
                 new VerticalLayout(
                     new RouterLink("Customers", CustomersView.class),
-                    new RouterLink("Orders", OrderView.class)
+                    new RouterLink("Orders", OrderView.class),
+                    new RouterLink("Create Order", CreateOrder.class)
         ));
 
     }

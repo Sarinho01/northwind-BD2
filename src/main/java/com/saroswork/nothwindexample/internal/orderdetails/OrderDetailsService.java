@@ -20,6 +20,10 @@ public class OrderDetailsService implements Serializable {
     public OrderDetails insert( OrderDetails orderDetails){
         return orderDetailsRepository.save(orderDetails);
     }
+
+    public List<OrderDetails> insertAll(List<OrderDetails> orderDetailsList){
+        return orderDetailsRepository.saveAll(orderDetailsList);
+    }
     public List<OrderDetails> findByOrderId(Integer id){
         return orderDetailsRepository.findByOrderID(id);
     }

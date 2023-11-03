@@ -45,7 +45,6 @@ public class OrderView extends VerticalLayout {
 
         updateList();
         closeOD();
-
     }
 
     private void configureGrid() {

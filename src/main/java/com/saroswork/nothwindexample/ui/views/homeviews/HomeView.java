@@ -7,10 +7,12 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 
 @Route(value = "", layout = MainView.class)
+@PageTitle("HOME | NorthWind")
 public class HomeView extends VerticalLayout {
     private final CustomerService customerService;
     private final Grid<Customer> customerGrid = new Grid<>(Customer.class);
@@ -39,7 +41,7 @@ public class HomeView extends VerticalLayout {
 
 
     private void configureGrid() {
-        customerGrid.setColumns("customerID", "companyName", "contactName");
+        customerGrid.setColumns("customerID", "companyName", "contactName", "contactTitle", "address", "city", "region", "postalCode", "country", "phone", "fax");
         customerGrid.setItems(customerService.findTOP10Customers());
     }
 }

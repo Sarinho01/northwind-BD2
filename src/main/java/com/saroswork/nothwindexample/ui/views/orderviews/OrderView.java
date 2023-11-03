@@ -56,7 +56,7 @@ public class OrderView extends VerticalLayout {
     private void configureOrderGrid() {
         orderGrid.addClassName("order-grid");
         orderGrid.setSizeFull();
-        orderGrid.setColumns("orderID", "customerID", "employeeID", "orderDate", "requiredDate", "shippedDate", "shipVia",
+        orderGrid.setColumns("orderID", "customerID", "employeeID", "orderDate", "freight", "requiredDate", "shippedDate", "shipVia",
                 "shipAdress", "shipCity", "shipRegion", "shipPostalCode", "shipCountry");
 
         orderGrid.addComponentColumn(order -> {
